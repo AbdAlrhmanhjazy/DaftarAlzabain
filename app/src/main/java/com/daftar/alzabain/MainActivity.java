@@ -1,11 +1,16 @@
 package com.daftar.alzabain;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -20,8 +25,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -31,22 +38,28 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseHelper db;
     private SharedPreferences prefs;
 
-    private LinearLayout tabHome, tabCustomers, tabReports, tabSettings;
+    private LinearLayout tabHome, tabCustomers, tabReports, tabSettings, tabCustomerDetail;
     private LinearLayout navHome, navCustomers, navReports, navSettings;
     private TextView navHomeIcon, navHomeText, navCustomersIcon, navCustomersText;
     private TextView navReportsIcon, navReportsText, navSettingsIcon, navSettingsText;
     private TextView fabAddCustomer;
     private ScrollView svMainContent;
 
-    private TextView tvShopOwner, tvTotalRemaining, tvDebtorsCount, tvWhatYouOwe;
-    private TextView tvTodayDebts, tvTodayPayments;
+    private TextView tvGreeting, tvShopOwner, tvTotalRemaining, tvDebtorsCount, tvWhatYouOwe;
+    private TextView tvTodayDebts, tvTodayPayments, tvCurrencySub;
     private TextView tvSlot2Symbol, tvSlot2Name, tvSlot3Symbol, tvSlot3Name, tvSlot4Symbol, tvSlot4Name;
-    private LinearLayout llRecentCustomers, llCustomersList, llRecentTransactions;
+    private LinearLayout llRecentCustomers, llCustomersList, llRecentTransactions, llDetailHistory;
     private EditText etSearchCustomers;
     private TextView btnSortCustomers, tvCustomersTotalBadge, tvReportDebts, tvReportPayments, tvReportNet;
+    private TextView tvDetailName, tvDetailPhone, tvDetailBalance, tvDetailStatus;
 
     private boolean sortByBalanceDesc = false;
     private boolean hideAmounts = false;
+    private int currentTab = 0;
+    private int selectedCustomerId = -1;
+    private String selectedCustomerName = "";
+    private String selectedCustomerPhone = "";
+    private double selectedCustomerBalance = 0;
     private final ArrayList<Integer> quickSlotCustomerIds = new ArrayList<>();
 
     @Override
@@ -62,7 +75,9 @@ public class MainActivity extends AppCompatActivity {
         setupNavigation();
         setupHomeActions();
         setupCustomersActions();
+        setupReportsActions();
         setupSettingsActions();
+        setupDetailActions();
 
         switchTab(0);
         refreshAll();
@@ -74,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         tabCustomers = findViewById(R.id.tabCustomers);
         tabReports = findViewById(R.id.tabReports);
         tabSettings = findViewById(R.id.tabSettings);
+        tabCustomerDetail = findViewById(R.id.tabCustomerDetail);
 
         navHome = findViewById(R.id.navHome);
         navCustomers = findViewById(R.id.navCustomers);
@@ -91,12 +107,14 @@ public class MainActivity extends AppCompatActivity {
 
         fabAddCustomer = findViewById(R.id.fabAddCustomer);
 
+        tvGreeting = findViewById(R.id.tvGreeting);
         tvShopOwner = findViewById(R.id.tvShopOwner);
         tvTotalRemaining = findViewById(R.id.tvTotalRemaining);
         tvDebtorsCount = findViewById(R.id.tvDebtorsCount);
         tvWhatYouOwe = findViewById(R.id.tvWhatYouOwe);
         tvTodayDebts = findViewById(R.id.tvTodayDebts);
         tvTodayPayments = findViewById(R.id.tvTodayPayments);
+        tvCurrencySub = findViewById(R.id.tvCurrencySub);
 
         tvSlot2Symbol = findViewById(R.id.tvSlot2Symbol);
         tvSlot2Name = findViewById(R.id.tvSlot2Name);
@@ -108,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         llRecentCustomers = findViewById(R.id.llRecentCustomers);
         llCustomersList = findViewById(R.id.llCustomersList);
         llRecentTransactions = findViewById(R.id.llRecentTransactions);
+        llDetailHistory = findViewById(R.id.llDetailHistory);
 
         etSearchCustomers = findViewById(R.id.etSearchCustomers);
         btnSortCustomers = findViewById(R.id.btnSortCustomers);
@@ -116,6 +135,11 @@ public class MainActivity extends AppCompatActivity {
         tvReportDebts = findViewById(R.id.tvReportDebts);
         tvReportPayments = findViewById(R.id.tvReportPayments);
         tvReportNet = findViewById(R.id.tvReportNet);
+
+        tvDetailName = findViewById(R.id.tvDetailName);
+        tvDetailPhone = findViewById(R.id.tvDetailPhone);
+        tvDetailBalance = findViewById(R.id.tvDetailBalance);
+        tvDetailStatus = findViewById(R.id.tvDetailStatus);
     }
 
     private void setupNavigation() {
@@ -127,20 +151,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switchTab(int index) {
+        currentTab = index;
         tabHome.setVisibility(index == 0 ? View.VISIBLE : View.GONE);
         tabCustomers.setVisibility(index == 1 ? View.VISIBLE : View.GONE);
         tabReports.setVisibility(index == 2 ? View.VISIBLE : View.GONE);
         tabSettings.setVisibility(index == 3 ? View.VISIBLE : View.GONE);
+        tabCustomerDetail.setVisibility(index == 4 ? View.VISIBLE : View.GONE);
         fabAddCustomer.setVisibility(index == 1 ? View.VISIBLE : View.GONE);
 
         int activeColor = Color.parseColor("#14B896");
-        int inactiveColor = Color.parseColor("#9FB0AA");
+        int inactiveColor = Color.parseColor("#96ACA4");
 
         navHomeIcon.setTextColor(index == 0 ? activeColor : inactiveColor);
         navHomeText.setTextColor(index == 0 ? activeColor : inactiveColor);
 
-        navCustomersIcon.setTextColor(index == 1 ? activeColor : inactiveColor);
-        navCustomersText.setTextColor(index == 1 ? activeColor : inactiveColor);
+        navCustomersIcon.setTextColor((index == 1 || index == 4) ? activeColor : inactiveColor);
+        navCustomersText.setTextColor((index == 1 || index == 4) ? activeColor : inactiveColor);
 
         navReportsIcon.setTextColor(index == 2 ? activeColor : inactiveColor);
         navReportsText.setTextColor(index == 2 ? activeColor : inactiveColor);
@@ -152,10 +178,19 @@ public class MainActivity extends AppCompatActivity {
         refreshAll();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (currentTab == 4) {
+            switchTab(1);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     private void setupHomeActions() {
         findViewById(R.id.tvEditShopBtn).setOnClickListener(v -> showEditShopOwnerDialog());
-        findViewById(R.id.cardWalletsBanks).setOnClickListener(v -> showWalletInfoDialog());
-        findViewById(R.id.btnQuickEdit).setOnClickListener(v -> showQuickSlotsPickerDialog());
+        findViewById(R.id.cardWalletsBanks).setOnClickListener(v -> showWalletsDialog());
+        findViewById(R.id.btnQuickEdit).setOnClickListener(v -> showAddCustomerDialog());
         findViewById(R.id.slotAdd).setOnClickListener(v -> showAddCustomerDialog());
 
         findViewById(R.id.slot2).setOnClickListener(v -> handleQuickSlotClick(0));
@@ -187,50 +222,94 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setupReportsActions() {
+        findViewById(R.id.btnShareFullReport).setOnClickListener(v -> shareFullReport());
+    }
+
     private void setupSettingsActions() {
-        findViewById(R.id.itemBackup).setOnClickListener(v ->
-                Toast.makeText(this, "قاعدة البيانات محفوظة تلقائياً على الجهاز (daftar_alzabain.db)", Toast.LENGTH_SHORT).show());
-        findViewById(R.id.itemReports).setOnClickListener(v -> switchTab(2));
+        findViewById(R.id.itemShop).setOnClickListener(v -> showEditShopOwnerDialog());
+        findViewById(R.id.itemCurrency).setOnClickListener(v -> cycleCurrency());
         findViewById(R.id.itemHideAmounts).setOnClickListener(v -> {
             hideAmounts = !hideAmounts;
             prefs.edit().putBoolean("hide_amounts", hideAmounts).apply();
             Toast.makeText(this, hideAmounts ? "تم إخفاء المبالغ" : "تم إظهار المبالغ", Toast.LENGTH_SHORT).show();
             refreshAll();
         });
-        findViewById(R.id.itemTemplates).setOnClickListener(v ->
-                Toast.makeText(this, "قالب التذكير: مرحباً، نود تذكيركم برصيد الحساب المستحق.", Toast.LENGTH_SHORT).show());
-        findViewById(R.id.itemShop).setOnClickListener(v -> showEditShopOwnerDialog());
-        findViewById(R.id.itemAppearance).setOnClickListener(v ->
-                Toast.makeText(this, "المظهر الداكن الزمردي مفعّل حالياً", Toast.LENGTH_SHORT).show());
-        findViewById(R.id.itemSecurity).setOnClickListener(v ->
-                Toast.makeText(this, "إعدادات الأمان متاحة عبر قفل الجهاز", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.itemBackup).setOnClickListener(v -> shareFullReport());
         findViewById(R.id.itemAbout).setOnClickListener(v ->
-                Toast.makeText(this, "دفتر الزبائن - إصدار 1.0", Toast.LENGTH_SHORT).show());
+                Toast.makeText(this, "دفتر الزبائن الاحترافي - الإصدار 2.0", Toast.LENGTH_SHORT).show());
+    }
+
+    private void setupDetailActions() {
+        findViewById(R.id.btnBackFromDetail).setOnClickListener(v -> switchTab(1));
+        findViewById(R.id.btnEditCustomerDetail).setOnClickListener(v -> showEditOrDeleteCustomerDialog());
+        findViewById(R.id.btnDetailAddDebt).setOnClickListener(v -> showSingleTypeTransactionDialog(selectedCustomerId, selectedCustomerName, "DEBT"));
+        findViewById(R.id.btnDetailAddPayment).setOnClickListener(v -> showSingleTypeTransactionDialog(selectedCustomerId, selectedCustomerName, "PAYMENT"));
+        findViewById(R.id.btnDetailWhatsApp).setOnClickListener(v -> openWhatsAppReminder());
+        findViewById(R.id.btnDetailCall).setOnClickListener(v -> callSelectedCustomer());
+        findViewById(R.id.btnDetailShare).setOnClickListener(v -> shareCustomerStatement());
+    }
+
+    private String getCurrency() {
+        return prefs.getString("currency", "₪");
+    }
+
+    private void cycleCurrency() {
+        String cur = getCurrency();
+        String next = cur.equals("₪") ? "$" : (cur.equals("$") ? "د.أ" : "₪");
+        prefs.edit().putString("currency", next).apply();
+        Toast.makeText(this, "تم تغيير العملة إلى: " + next, Toast.LENGTH_SHORT).show();
+        refreshAll();
     }
 
     private String formatAmount(double value) {
         if (hideAmounts) {
-            return "•••• ₪";
+            return "•••• " + getCurrency();
         }
-        return String.format(Locale.getDefault(), "%.1f ₪", value);
+        return String.format(Locale.getDefault(), "%.1f %s", value, getCurrency());
+    }
+
+    private AlertDialog.Builder darkDialog() {
+        return new AlertDialog.Builder(this, R.style.DarkDialogTheme);
+    }
+
+    private EditText styledEditText(String hint, String value, int inputType) {
+        EditText et = new EditText(this);
+        et.setHint(hint);
+        et.setText(value);
+        et.setInputType(inputType);
+        et.setTextColor(Color.WHITE);
+        et.setHintTextColor(Color.parseColor("#96ACA4"));
+        et.setPadding(24, 24, 24, 24);
+        GradientDrawable bg = new GradientDrawable();
+        bg.setColor(Color.parseColor("#111A17"));
+        bg.setCornerRadius(20f);
+        bg.setStroke(2, Color.parseColor("#263530"));
+        et.setBackground(bg);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        lp.setMargins(0, 0, 0, 18);
+        et.setLayoutParams(lp);
+        return et;
     }
 
     private void refreshAll() {
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        tvGreeting.setText(hour < 12 ? "صباح الخير" : "مساء الخير");
+
         String ownerName = prefs.getString("shop_owner", "الحاج");
         tvShopOwner.setText(ownerName);
+        tvCurrencySub.setText("الحالية: " + getCurrency() + " - اضغط للتغيير بين ₪ و $ و د.أ");
 
         String todayStr = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
 
-        double totalDebts = 0;
-        double totalPayments = 0;
-        double todayDebts = 0;
-        double todayPayments = 0;
+        double totalDebts = 0, totalPayments = 0, todayDebts = 0, todayPayments = 0;
 
         Cursor cAll = db.getReadableDatabase().rawQuery(
-                "SELECT " +
-                        "COALESCE(SUM(CASE WHEN type = 'DEBT' THEN amount ELSE 0 END), 0), " +
-                        "COALESCE(SUM(CASE WHEN type = 'PAYMENT' THEN amount ELSE 0 END), 0) " +
-                        "FROM transactions",
+                "SELECT COALESCE(SUM(CASE WHEN type = 'DEBT' THEN amount ELSE 0 END), 0), " +
+                        "COALESCE(SUM(CASE WHEN type = 'PAYMENT' THEN amount ELSE 0 END), 0) FROM transactions",
                 null
         );
         if (cAll != null) {
@@ -242,8 +321,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Cursor cToday = db.getReadableDatabase().rawQuery(
-                "SELECT " +
-                        "COALESCE(SUM(CASE WHEN type = 'DEBT' THEN amount ELSE 0 END), 0), " +
+                "SELECT COALESCE(SUM(CASE WHEN type = 'DEBT' THEN amount ELSE 0 END), 0), " +
                         "COALESCE(SUM(CASE WHEN type = 'PAYMENT' THEN amount ELSE 0 END), 0) " +
                         "FROM transactions WHERE created_at LIKE ?",
                 new String[]{todayStr + "%"}
@@ -262,16 +340,12 @@ public class MainActivity extends AppCompatActivity {
 
         int debtorsCount = 0;
         Cursor cDebtors = db.getReadableDatabase().rawQuery(
-                "SELECT COUNT(*) FROM (" +
-                        "SELECT c.id, COALESCE(SUM(CASE WHEN t.type = 'DEBT' THEN t.amount ELSE -t.amount END), 0) AS bal " +
-                        "FROM customers c LEFT JOIN transactions t ON c.id = t.customer_id " +
-                        "GROUP BY c.id HAVING bal > 0)",
+                "SELECT COUNT(*) FROM (SELECT c.id, COALESCE(SUM(CASE WHEN t.type = 'DEBT' THEN t.amount ELSE -t.amount END), 0) AS bal " +
+                        "FROM customers c LEFT JOIN transactions t ON c.id = t.customer_id GROUP BY c.id HAVING bal > 0)",
                 null
         );
         if (cDebtors != null) {
-            if (cDebtors.moveToFirst()) {
-                debtorsCount = cDebtors.getInt(0);
-            }
+            if (cDebtors.moveToFirst()) debtorsCount = cDebtors.getInt(0);
             cDebtors.close();
         }
 
@@ -288,14 +362,288 @@ public class MainActivity extends AppCompatActivity {
         refreshQuickSlots();
         refreshCustomersList(etSearchCustomers.getText().toString());
         refreshRecentHomeAndTransactions();
+
+        if (currentTab == 4 && selectedCustomerId != -1) {
+            loadCustomerDetail(selectedCustomerId);
+        }
+    }
+
+    private void openCustomerDetail(int customerId) {
+        selectedCustomerId = customerId;
+        switchTab(4);
+    }
+
+    private void loadCustomerDetail(int customerId) {
+        Cursor c = db.getReadableDatabase().rawQuery(
+                "SELECT c.name, c.phone, COALESCE(SUM(CASE WHEN t.type = 'DEBT' THEN t.amount ELSE -t.amount END), 0) " +
+                        "FROM customers c LEFT JOIN transactions t ON c.id = t.customer_id WHERE c.id = ? GROUP BY c.id",
+                new String[]{String.valueOf(customerId)}
+        );
+        if (c != null) {
+            if (c.moveToFirst()) {
+                selectedCustomerName = c.getString(0);
+                selectedCustomerPhone = c.getString(1) != null ? c.getString(1) : "";
+                selectedCustomerBalance = c.getDouble(2);
+            }
+            c.close();
+        }
+
+        tvDetailName.setText(selectedCustomerName);
+        tvDetailPhone.setText(selectedCustomerPhone.isEmpty() ? "لا يوجد رقم جوال مسجل" : selectedCustomerPhone);
+        tvDetailBalance.setText(formatAmount(Math.abs(selectedCustomerBalance)));
+        tvDetailStatus.setText(selectedCustomerBalance > 0 ? "عليه" : (selectedCustomerBalance < 0 ? "له" : "حساب متزن"));
+
+        llDetailHistory.removeAllViews();
+        Cursor h = db.getReadableDatabase().rawQuery(
+                "SELECT id, type, amount, note, created_at FROM transactions WHERE customer_id = ? ORDER BY id DESC",
+                new String[]{String.valueOf(customerId)}
+        );
+        int count = 0;
+        if (h != null) {
+            while (h.moveToNext()) {
+                count++;
+                int txId = h.getInt(0);
+                String type = h.getString(1);
+                double amount = h.getDouble(2);
+                String note = h.getString(3);
+                String dateStr = h.getString(4);
+
+                LinearLayout row = new LinearLayout(this);
+                row.setOrientation(LinearLayout.HORIZONTAL);
+                row.setGravity(Gravity.CENTER_VERTICAL);
+                row.setPadding(24, 22, 24, 22);
+
+                GradientDrawable bg = new GradientDrawable();
+                bg.setColor(Color.parseColor("#18221F"));
+                bg.setCornerRadius(32f);
+                bg.setStroke(2, Color.parseColor("#263530"));
+                row.setBackground(bg);
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                lp.setMargins(0, 0, 0, 12);
+                row.setLayoutParams(lp);
+
+                boolean isDebt = "DEBT".equals(type);
+
+                LinearLayout infoCol = new LinearLayout(this);
+                infoCol.setOrientation(LinearLayout.VERTICAL);
+                infoCol.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+
+                TextView tvTitle = new TextView(this);
+                tvTitle.setText(isDebt ? "🔴 سحب / دين" : "🟢 دفعة مستلمة");
+                tvTitle.setTextColor(Color.WHITE);
+                tvTitle.setTextSize(15f);
+                infoCol.addView(tvTitle);
+
+                if (note != null && !note.trim().isEmpty()) {
+                    TextView tvNote = new TextView(this);
+                    tvNote.setText("ملاحظة: " + note);
+                    tvNote.setTextColor(Color.parseColor("#C7D8D2"));
+                    tvNote.setTextSize(13f);
+                    infoCol.addView(tvNote);
+                }
+
+                TextView tvDate = new TextView(this);
+                tvDate.setText(dateStr != null ? dateStr : "");
+                tvDate.setTextColor(Color.parseColor("#96ACA4"));
+                tvDate.setTextSize(12f);
+                infoCol.addView(tvDate);
+
+                TextView tvAmt = new TextView(this);
+                tvAmt.setText((isDebt ? "+ " : "- ") + formatAmount(amount));
+                tvAmt.setTextColor(isDebt ? Color.parseColor("#FF6B6B") : Color.parseColor("#2DD4A8"));
+                tvAmt.setTextSize(17f);
+
+                row.addView(infoCol);
+                row.addView(tvAmt);
+
+                row.setOnClickListener(v -> confirmDeleteTransaction(txId));
+                llDetailHistory.addView(row);
+            }
+            h.close();
+        }
+
+        if (count == 0) {
+            TextView empty = new TextView(this);
+            empty.setText("لا توجد حركات مسجلة لهذا الزبون حتى الآن.");
+            empty.setTextColor(Color.parseColor("#96ACA4"));
+            empty.setGravity(Gravity.CENTER);
+            empty.setPadding(20, 40, 20, 40);
+            llDetailHistory.addView(empty);
+        }
+    }
+
+    private void confirmDeleteTransaction(int txId) {
+        darkDialog()
+                .setTitle("حذف الحركة")
+                .setMessage("هل تريد حذف هذه الحركة من سجل الزبون؟")
+                .setPositiveButton("حذف", (d, w) -> {
+                    db.getWritableDatabase().delete("transactions", "id = ?", new String[]{String.valueOf(txId)});
+                    refreshAll();
+                })
+                .setNegativeButton("إلغاء", null)
+                .show();
+    }
+
+    private void openWhatsAppReminder() {
+        String shop = prefs.getString("shop_owner", "المحل");
+        String status = selectedCustomerBalance > 0 ? "عليكم رصيد مستحق بقيمة" : "رصيدكم الحالي هو";
+        String msg = "مرحباً " + selectedCustomerName + "، معك " + shop + ". نود تذكيركم بأن " + status + " " + formatAmount(Math.abs(selectedCustomerBalance)) + ". شكراً لتعاملكم معنا.";
+        try {
+            String phone = selectedCustomerPhone.replaceAll("[^0-9]", "");
+            String url = phone.isEmpty()
+                    ? "https://wa.me/?text=" + URLEncoder.encode(msg, "UTF-8")
+                    : "https://wa.me/" + phone + "?text=" + URLEncoder.encode(msg, "UTF-8");
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        } catch (Exception e) {
+            Toast.makeText(this, "تعذر فتح واتساب", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void callSelectedCustomer() {
+        if (selectedCustomerPhone.trim().isEmpty()) {
+            Toast.makeText(this, "لا يوجد رقم جوال مسجل لهذا الزبون", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + selectedCustomerPhone.trim()));
+        startActivity(intent);
+    }
+
+    private void shareCustomerStatement() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("📄 كشف حساب الزبون: ").append(selectedCustomerName).append("\n");
+        sb.append("المحل: ").append(prefs.getString("shop_owner", "الحاج")).append("\n");
+        sb.append("الرصيد الحالي: ").append(formatAmount(Math.abs(selectedCustomerBalance)))
+                .append(selectedCustomerBalance > 0 ? " (عليه)" : (selectedCustomerBalance < 0 ? " (له)" : " (متزن)")).append("\n");
+        sb.append("--------------------\n");
+
+        Cursor h = db.getReadableDatabase().rawQuery(
+                "SELECT type, amount, note, created_at FROM transactions WHERE customer_id = ? ORDER BY id DESC",
+                new String[]{String.valueOf(selectedCustomerId)}
+        );
+        if (h != null) {
+            while (h.moveToNext()) {
+                String t = "DEBT".equals(h.getString(0)) ? "دين" : "دفعة";
+                String note = h.getString(2);
+                sb.append("• ").append(t).append(": ").append(formatAmount(h.getDouble(1)))
+                        .append(" | ").append(h.getString(3));
+                if (note != null && !note.trim().isEmpty()) sb.append(" (").append(note).append(")");
+                sb.append("\n");
+            }
+            h.close();
+        }
+
+        Intent send = new Intent(Intent.ACTION_SEND);
+        send.setType("text/plain");
+        send.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        startActivity(Intent.createChooser(send, "مشاركة كشف الحساب"));
+    }
+
+    private void shareFullReport() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("📊 تقرير دفتر الزبائن - ").append(prefs.getString("shop_owner", "الحاج")).append("\n");
+        sb.append(tvReportDebts.getText()).append("\n");
+        sb.append(tvReportPayments.getText()).append("\n");
+        sb.append(tvReportNet.getText()).append("\n");
+        sb.append("--------------------\n");
+
+        Cursor c = db.getReadableDatabase().rawQuery(
+                "SELECT c.name, COALESCE(SUM(CASE WHEN t.type = 'DEBT' THEN t.amount ELSE -t.amount END), 0) AS bal " +
+                        "FROM customers c LEFT JOIN transactions t ON c.id = t.customer_id GROUP BY c.id ORDER BY bal DESC",
+                null
+        );
+        if (c != null) {
+            while (c.moveToNext()) {
+                double bal = c.getDouble(1);
+                sb.append("• ").append(c.getString(0)).append(": ").append(formatAmount(Math.abs(bal)))
+                        .append(bal > 0 ? " (عليه)" : (bal < 0 ? " (له)" : " (متزن)")).append("\n");
+            }
+            c.close();
+        }
+
+        Intent send = new Intent(Intent.ACTION_SEND);
+        send.setType("text/plain");
+        send.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        startActivity(Intent.createChooser(send, "مشاركة التقرير الكامل"));
+    }
+
+    private void showEditOrDeleteCustomerDialog() {
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(40, 24, 40, 10);
+
+        final EditText etName = styledEditText("اسم الزبون", selectedCustomerName, InputType.TYPE_CLASS_TEXT);
+        final EditText etPhone = styledEditText("رقم الجوال", selectedCustomerPhone, InputType.TYPE_CLASS_PHONE);
+        layout.addView(etName);
+        layout.addView(etPhone);
+
+        darkDialog()
+                .setTitle("تعديل بيانات الزبون")
+                .setView(layout)
+                .setPositiveButton("حفظ", (d, w) -> {
+                    String n = etName.getText().toString().trim();
+                    String p = etPhone.getText().toString().trim();
+                    if (!n.isEmpty()) {
+                        ContentValues cv = new ContentValues();
+                        cv.put("name", n);
+                        cv.put("phone", p);
+                        db.getWritableDatabase().update("customers", cv, "id = ?", new String[]{String.valueOf(selectedCustomerId)});
+                        refreshAll();
+                    }
+                })
+                .setNeutralButton("حذف الزبون", (d, w) -> {
+                    db.getWritableDatabase().delete("transactions", "customer_id = ?", new String[]{String.valueOf(selectedCustomerId)});
+                    db.getWritableDatabase().delete("customers", "id = ?", new String[]{String.valueOf(selectedCustomerId)});
+                    Toast.makeText(this, "تم حذف الزبون", Toast.LENGTH_SHORT).show();
+                    switchTab(1);
+                })
+                .setNegativeButton("إلغاء", null)
+                .show();
+    }
+
+    private void showWalletsDialog() {
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(40, 24, 40, 10);
+
+        final EditText etJawwal = styledEditText("رقم محفظة جوال باي", prefs.getString("w_jawwal", ""), InputType.TYPE_CLASS_PHONE);
+        final EditText etPalpay = styledEditText("رقم محفظة بال باي", prefs.getString("w_palpay", ""), InputType.TYPE_CLASS_PHONE);
+        final EditText etBank = styledEditText("رقم حساب بنك فلسطين", prefs.getString("w_bank", ""), InputType.TYPE_CLASS_TEXT);
+        layout.addView(etJawwal);
+        layout.addView(etPalpay);
+        layout.addView(etBank);
+
+        darkDialog()
+                .setTitle("المحافظ والبنوك")
+                .setView(layout)
+                .setPositiveButton("حفظ", (d, w) -> {
+                    prefs.edit()
+                            .putString("w_jawwal", etJawwal.getText().toString().trim())
+                            .putString("w_palpay", etPalpay.getText().toString().trim())
+                            .putString("w_bank", etBank.getText().toString().trim())
+                            .apply();
+                    Toast.makeText(this, "تم حفظ بيانات المحافظ", Toast.LENGTH_SHORT).show();
+                })
+                .setNeutralButton("نسخ الكل", (d, w) -> {
+                    String txt = "جوال باي: " + etJawwal.getText().toString().trim() +
+                            "\nبال باي: " + etPalpay.getText().toString().trim() +
+                            "\nبنك فلسطين: " + etBank.getText().toString().trim();
+                    ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    if (cm != null) {
+                        cm.setPrimaryClip(ClipData.newPlainText("wallets", txt));
+                        Toast.makeText(this, "تم نسخ أرقام المحافظ للحافظة", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("إغلاق", null)
+                .show();
     }
 
     private void refreshQuickSlots() {
         quickSlotCustomerIds.clear();
-        Cursor c = db.getReadableDatabase().rawQuery(
-                "SELECT id, name FROM customers ORDER BY id ASC LIMIT 3",
-                null
-        );
+        Cursor c = db.getReadableDatabase().rawQuery("SELECT id, name FROM customers ORDER BY id DESC LIMIT 3", null);
         ArrayList<Integer> ids = new ArrayList<>();
         ArrayList<String> names = new ArrayList<>();
         if (c != null) {
@@ -326,9 +674,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleQuickSlotClick(int slotIndex) {
         if (slotIndex < quickSlotCustomerIds.size() && quickSlotCustomerIds.get(slotIndex) != -1) {
-            int custId = quickSlotCustomerIds.get(slotIndex);
-            String name = getCustomerNameById(custId);
-            showAddTransactionDialog(custId, name);
+            openCustomerDetail(quickSlotCustomerIds.get(slotIndex));
         } else {
             showAddCustomerDialog();
         }
@@ -339,8 +685,7 @@ public class MainActivity extends AppCompatActivity {
 
         String sql = "SELECT c.id, c.name, c.phone, " +
                 "COALESCE(SUM(CASE WHEN t.type = 'DEBT' THEN t.amount ELSE -t.amount END), 0) AS balance " +
-                "FROM customers c " +
-                "LEFT JOIN transactions t ON c.id = t.customer_id ";
+                "FROM customers c LEFT JOIN transactions t ON c.id = t.customer_id ";
         String[] args = null;
         if (query != null && !query.trim().isEmpty()) {
             sql += "WHERE c.name LIKE ? OR c.phone LIKE ? ";
@@ -355,13 +700,12 @@ public class MainActivity extends AppCompatActivity {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 count++;
-                int id = cursor.getInt(0);
-                String name = cursor.getString(1);
-                String phone = cursor.getString(2);
-                double balance = cursor.getDouble(3);
-
-                LinearLayout row = buildCustomerCardRow(id, name, phone, balance);
-                llCustomersList.addView(row);
+                llCustomersList.addView(buildCustomerCardRow(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getDouble(3)
+                ));
             }
             cursor.close();
         }
@@ -375,9 +719,9 @@ public class MainActivity extends AppCompatActivity {
         card.setPadding(24, 24, 24, 24);
 
         GradientDrawable bg = new GradientDrawable();
-        bg.setColor(Color.parseColor("#1B2421"));
+        bg.setColor(Color.parseColor("#18221F"));
         bg.setCornerRadius(36f);
-        bg.setStroke(2, Color.parseColor("#293531"));
+        bg.setStroke(2, Color.parseColor("#263530"));
         card.setBackground(bg);
 
         LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
@@ -398,7 +742,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView tvStatus = new TextView(this);
         tvStatus.setText(balance > 0 ? "عليه" : (balance < 0 ? "له" : "متزن"));
-        tvStatus.setTextColor(Color.parseColor("#9FB0AA"));
+        tvStatus.setTextColor(Color.parseColor("#96ACA4"));
         tvStatus.setTextSize(12f);
 
         leftCol.addView(tvBal);
@@ -419,7 +763,7 @@ public class MainActivity extends AppCompatActivity {
         if (phone != null && !phone.trim().isEmpty()) {
             TextView tvPhone = new TextView(this);
             tvPhone.setText(phone);
-            tvPhone.setTextColor(Color.parseColor("#9FB0AA"));
+            tvPhone.setTextColor(Color.parseColor("#96ACA4"));
             tvPhone.setTextSize(12f);
             midCol.addView(tvPhone);
         }
@@ -433,16 +777,15 @@ public class MainActivity extends AppCompatActivity {
 
         GradientDrawable avatarBg = new GradientDrawable();
         avatarBg.setShape(GradientDrawable.OVAL);
-        avatarBg.setColor(Color.parseColor("#25332E"));
+        avatarBg.setColor(Color.parseColor("#21342E"));
         tvAvatar.setBackground(avatarBg);
-        LinearLayout.LayoutParams avatarParams = new LinearLayout.LayoutParams(84, 84);
-        tvAvatar.setLayoutParams(avatarParams);
+        tvAvatar.setLayoutParams(new LinearLayout.LayoutParams(84, 84));
 
         card.addView(leftCol);
         card.addView(midCol);
         card.addView(tvAvatar);
 
-        card.setOnClickListener(v -> showAddTransactionDialog(id, name));
+        card.setOnClickListener(v -> openCustomerDetail(id));
         return card;
     }
 
@@ -454,25 +797,19 @@ public class MainActivity extends AppCompatActivity {
                 "SELECT c.id, c.name, c.phone, " +
                         "COALESCE(SUM(CASE WHEN t.type = 'DEBT' THEN t.amount ELSE -t.amount END), 0) AS balance " +
                         "FROM customers c LEFT JOIN transactions t ON c.id = t.customer_id " +
-                        "GROUP BY c.id, c.name, c.phone ORDER BY c.id DESC LIMIT 3",
+                        "GROUP BY c.id, c.name, c.phone ORDER BY c.id DESC LIMIT 4",
                 null
         );
         if (c != null) {
             while (c.moveToNext()) {
-                llRecentCustomers.addView(buildCustomerCardRow(
-                        c.getInt(0),
-                        c.getString(1),
-                        c.getString(2),
-                        c.getDouble(3)
-                ));
+                llRecentCustomers.addView(buildCustomerCardRow(c.getInt(0), c.getString(1), c.getString(2), c.getDouble(3)));
             }
             c.close();
         }
 
         Cursor ct = db.getReadableDatabase().rawQuery(
-                "SELECT t.type, t.amount, t.note, t.created_at, c.name " +
-                        "FROM transactions t JOIN customers c ON t.customer_id = c.id " +
-                        "ORDER BY t.id DESC LIMIT 10",
+                "SELECT t.type, t.amount, t.note, t.created_at, c.name, c.id " +
+                        "FROM transactions t JOIN customers c ON t.customer_id = c.id ORDER BY t.id DESC LIMIT 15",
                 null
         );
         if (ct != null) {
@@ -482,19 +819,21 @@ public class MainActivity extends AppCompatActivity {
                 String note = ct.getString(2);
                 String dateStr = ct.getString(3);
                 String custName = ct.getString(4);
+                int custId = ct.getInt(5);
 
                 TextView item = new TextView(this);
-                String tag = "DEBT".equals(type) ? "دين" : "دفعة";
+                String tag = "DEBT".equals(type) ? "🔴 دين" : "🟢 دفعة";
                 String notePart = (note != null && !note.trim().isEmpty()) ? " - " + note : "";
-                String datePart = (dateStr != null && !dateStr.trim().isEmpty()) ? " (" + dateStr + ")" : "";
+                String datePart = (dateStr != null && !dateStr.trim().isEmpty()) ? "\n" + dateStr : "";
                 item.setText(custName + " | " + tag + ": " + formatAmount(amount) + notePart + datePart);
                 item.setTextColor(Color.WHITE);
                 item.setTextSize(14f);
-                item.setPadding(24, 24, 24, 24);
+                item.setPadding(24, 22, 24, 22);
 
                 GradientDrawable bg = new GradientDrawable();
-                bg.setColor(Color.parseColor("#1B2421"));
+                bg.setColor(Color.parseColor("#18221F"));
                 bg.setCornerRadius(28f);
+                bg.setStroke(2, Color.parseColor("#263530"));
                 item.setBackground(bg);
 
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -503,6 +842,7 @@ public class MainActivity extends AppCompatActivity {
                 );
                 params.setMargins(0, 0, 0, 12);
                 item.setLayoutParams(params);
+                item.setOnClickListener(v -> openCustomerDetail(custId));
 
                 llRecentTransactions.addView(item);
             }
@@ -510,26 +850,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private String getCustomerNameById(int id) {
-        Cursor c = db.getReadableDatabase().rawQuery("SELECT name FROM customers WHERE id = ?", new String[]{String.valueOf(id)});
-        String name = "زبون";
-        if (c != null) {
-            if (c.moveToFirst()) {
-                name = c.getString(0);
-            }
-            c.close();
-        }
-        return name;
-    }
-
     private void showEditShopOwnerDialog() {
-        final EditText etOwner = new EditText(this);
-        etOwner.setText(prefs.getString("shop_owner", "الحاج"));
-        etOwner.setHint("الاسم أو اسم المحل");
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(40, 24, 40, 10);
+        final EditText etOwner = styledEditText("الاسم أو اسم المحل", prefs.getString("shop_owner", "الحاج"), InputType.TYPE_CLASS_TEXT);
+        layout.addView(etOwner);
 
-        new AlertDialog.Builder(this)
-                .setTitle("تعديل الاسم الظاهر")
-                .setView(etOwner)
+        darkDialog()
+                .setTitle("تعديل اسم المحل")
+                .setView(layout)
                 .setPositiveButton("حفظ", (d, w) -> {
                     String val = etOwner.getText().toString().trim();
                     if (!val.isEmpty()) {
@@ -541,34 +871,18 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void showWalletInfoDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("المحافظ والبنوك")
-                .setMessage("جوال باي • بال باي • بنك فلسطين")
-                .setPositiveButton("حسناً", null)
-                .show();
-    }
-
-    private void showQuickSlotsPickerDialog() {
-        Toast.makeText(this, "يتم عرض أول 3 زبائن مضافين في التسجيل السريع، اضغط على أي بطاقة لتسجيل دين أو دفعة.", Toast.LENGTH_SHORT).show();
-    }
-
     private void showAddCustomerDialog() {
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(40, 20, 40, 10);
+        layout.setPadding(40, 24, 40, 10);
 
-        final EditText etName = new EditText(this);
-        etName.setHint("اسم الزبون");
+        final EditText etName = styledEditText("اسم الزبون", "", InputType.TYPE_CLASS_TEXT);
+        final EditText etPhone = styledEditText("رقم الجوال (اختياري)", "", InputType.TYPE_CLASS_PHONE);
         layout.addView(etName);
-
-        final EditText etPhone = new EditText(this);
-        etPhone.setHint("رقم الجوال (اختياري)");
-        etPhone.setInputType(InputType.TYPE_CLASS_PHONE);
         layout.addView(etPhone);
 
-        new AlertDialog.Builder(this)
-                .setTitle("إضافة زبون")
+        darkDialog()
+                .setTitle("إضافة زبون جديد")
                 .setView(layout)
                 .setPositiveButton("حفظ", (dialog, which) -> {
                     String name = etName.getText().toString().trim();
@@ -580,32 +894,30 @@ public class MainActivity extends AppCompatActivity {
                     ContentValues values = new ContentValues();
                     values.put("name", name);
                     values.put("phone", phone);
-                    db.getWritableDatabase().insert("customers", null, values);
+                    long newId = db.getWritableDatabase().insert("customers", null, values);
                     refreshAll();
+                    if (newId > 0) openCustomerDetail((int) newId);
                 })
                 .setNegativeButton("إلغاء", null)
                 .show();
     }
 
-    private void showAddTransactionDialog(int customerId, String customerLabel) {
+    private void showSingleTypeTransactionDialog(int customerId, String customerLabel, String type) {
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(40, 20, 40, 10);
+        layout.setPadding(40, 24, 40, 10);
 
-        final EditText etAmount = new EditText(this);
-        etAmount.setHint("المبلغ");
-        etAmount.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        final EditText etAmount = styledEditText("المبلغ (" + getCurrency() + ")", "", InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        final EditText etNote = styledEditText("ملاحظة (مثل: خبز، طحين، سحب نقدي...)", "", InputType.TYPE_CLASS_TEXT);
         layout.addView(etAmount);
-
-        final EditText etNote = new EditText(this);
-        etNote.setHint("ملاحظة (اختياري)");
         layout.addView(etNote);
 
-        new AlertDialog.Builder(this)
-                .setTitle(customerLabel)
+        String title = ("DEBT".equals(type) ? "تسجيل دين على: " : "تسجيل دفعة من: ") + customerLabel;
+
+        darkDialog()
+                .setTitle(title)
                 .setView(layout)
-                .setPositiveButton("تسجيل دين", (dialog, which) -> saveTransaction(customerId, "DEBT", etAmount.getText().toString().trim(), etNote.getText().toString().trim()))
-                .setNeutralButton("تسجيل دفعة", (dialog, which) -> saveTransaction(customerId, "PAYMENT", etAmount.getText().toString().trim(), etNote.getText().toString().trim()))
+                .setPositiveButton("حفظ", (dialog, which) -> saveTransaction(customerId, type, etAmount.getText().toString().trim(), etNote.getText().toString().trim()))
                 .setNegativeButton("إلغاء", null)
                 .show();
     }
@@ -621,7 +933,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "المبلغ يجب أن يكون أكبر من صفر", Toast.LENGTH_SHORT).show();
                 return;
             }
-            String nowStr = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.US).format(new Date());
+            String nowStr = new SimpleDateFormat("yyyy-MM-dd  HH:mm", Locale.US).format(new Date());
             ContentValues values = new ContentValues();
             values.put("customer_id", customerId);
             values.put("type", type);

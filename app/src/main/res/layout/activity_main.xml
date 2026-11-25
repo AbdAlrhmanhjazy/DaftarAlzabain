@@ -17,8 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="18dp">
+            android:paddingBottom="22dp">
 
+            <!-- ================= TAB 0: HOME ================= -->
             <LinearLayout
                 android:id="@+id/tabHome"
                 android:layout_width="match_parent"
@@ -157,7 +158,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:text="0.0 ₪"
-                            android:textColor="@color/white"
+                            android:textColor="@color/debt_red"
                             android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -187,7 +188,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:text="0.0 ₪"
-                            android:textColor="@color/white"
+                            android:textColor="@color/payment_green"
                             android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -224,7 +225,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="رموز جوال باي وبال باي وبنك فلسطين، تملأ في تطبيق الاتصال بضغطة"
+                            android:text="احفظ أرقام جوال باي، بال باي وبنك فلسطين لنسخها بضغطة"
                             android:textColor="@color/text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -260,9 +261,9 @@
                         android:id="@+id/btnQuickEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="تعديل"
+                        android:text="إضافة زبون"
                         android:textColor="@color/teal_bright"
-                        android:textSize="14sp"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -289,8 +290,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="+"
-                            android:textColor="@color/white"
-                            android:textSize="24sp"
+                            android:textColor="@color/teal_bright"
+                            android:textSize="26sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -399,9 +400,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:layout_marginTop="16dp"
-                    android:text="أحدث الحركات والزبائن"
+                    android:text="أحدث الزبائن (اضغط لفتح كشف الحساب)"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -414,6 +415,7 @@
                     android:orientation="vertical" />
             </LinearLayout>
 
+            <!-- ================= TAB 1: CUSTOMERS ================= -->
             <LinearLayout
                 android:id="@+id/tabCustomers"
                 android:layout_width="match_parent"
@@ -503,6 +505,7 @@
                     android:orientation="vertical" />
             </LinearLayout>
 
+            <!-- ================= TAB 2: REPORTS ================= -->
             <LinearLayout
                 android:id="@+id/tabReports"
                 android:layout_width="match_parent"
@@ -529,7 +532,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="متابعة الديون والدفعات والأرصدة الكاملة"
+                        android:text="متابعة شاملة لجميع الديون والدفعات"
                         android:textColor="#D9F6EE"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -570,7 +573,30 @@
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/btnShareFullReport"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:background="@drawable/bg_btn_green"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:text="📤 مشاركة التقرير المالي الكامل"
+                        android:textColor="@color/payment_green"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="سجل آخر الحركات"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:id="@+id/llRecentTransactions"
@@ -581,6 +607,7 @@
                     android:orientation="vertical" />
             </LinearLayout>
 
+            <!-- ================= TAB 3: SETTINGS ================= -->
             <LinearLayout
                 android:id="@+id/tabSettings"
                 android:layout_width="match_parent"
@@ -613,7 +640,7 @@
                     android:padding="6dp">
 
                     <LinearLayout
-                        android:id="@+id/itemBackup"
+                        android:id="@+id/itemShop"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -622,7 +649,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="النسخ الاحتياطي"
+                            android:text="اسم المحل"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -631,18 +658,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="أربع طرق لحفظ الدفتر واستعادته"
+                            android:text="تعديل اسم المحل الذي يظهر في الشاشة الرئيسية ورسائل واتساب"
                             android:textColor="@color/text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider_dark" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider_dark" />
 
                     <LinearLayout
-                        android:id="@+id/itemReports"
+                        android:id="@+id/itemCurrency"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -651,24 +675,22 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="التقارير"
+                            android:text="العملة الافتراضية"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tvCurrencySub"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="أعمار الديون، ومتى يُعد الزبون متأخراً"
+                            android:text="الحالية: شيكل (₪) - اضغط للتغيير بين ₪ و $ و د.أ"
                             android:textColor="@color/text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider_dark" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider_dark" />
 
                     <LinearLayout
                         android:id="@+id/itemHideAmounts"
@@ -680,28 +702,24 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="إخفاء المبالغ"
+                            android:text="إخفاء المبالغ (الخصوصية)"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvHideAmountsSub"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="تغطية الأرقام بضغطة، وما يبقى ظاهراً منها"
+                            android:text="إخفاء أو إظهار الأرقام بضغطة واحدة"
                             android:textColor="@color/text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider_dark" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider_dark" />
 
                     <LinearLayout
-                        android:id="@+id/itemTemplates"
+                        android:id="@+id/itemBackup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -710,7 +728,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="قوالب التذكير"
+                            android:text="تصدير نسخة نصية للدفتر"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -719,102 +737,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="نص رسالة التذكير لواتساب وللرسائل النصية"
+                            android:text="إرسال نسخة كاملة من جميع الزبائن والأرصدة عبر واتساب أو تيليجرام"
                             android:textColor="@color/text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider_dark" />
-
-                    <LinearLayout
-                        android:id="@+id/itemShop"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="14dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="المحل"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="اسم المحل والعملات التي يمسك بها الدفتر"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider_dark" />
-
-                    <LinearLayout
-                        android:id="@+id/itemAppearance"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="14dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="المظهر ولوحة الأرقام"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="فاتح أو داكن، والاهتزاز والصوت عند الضغط"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider_dark" />
-
-                    <LinearLayout
-                        android:id="@+id/itemSecurity"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="14dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="الأمان"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="قفل التطبيق بالبصمة أو برمز الجهاز"
-                            android:textColor="@color/text_secondary"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider_dark" />
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider_dark" />
 
                     <LinearLayout
                         android:id="@+id/itemAbout"
@@ -835,11 +763,223 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="الإصدار والشرح السريع وإحصاءات الاستخدام"
+                            android:text="دفتر الزبائن الاحترافي - الإصدار 2.0"
                             android:textColor="@color/text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
+            </LinearLayout>
+
+            <!-- ================= TAB 4: CUSTOMER STATEMENT (كشف حساب الزبون) ================= -->
+            <LinearLayout
+                android:id="@+id/tabCustomerDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_header_teal"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/btnBackFromDetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_pill_dark"
+                            android:paddingStart="12dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="6dp"
+                            android:text="رجوع →"
+                            android:textColor="@color/white"
+                            android:textSize="13sp" />
+
+                        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/btnEditCustomerDetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_pill_dark"
+                            android:paddingStart="12dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="6dp"
+                            android:text="تعديل / حذف"
+                            android:textColor="#9AF2DC"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvDetailName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="اسم الزبون"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvDetailPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="بدون رقم جوال"
+                        android:textColor="#D4F5EC"
+                        android:textSize="13sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvDetailBalance"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0.0 ₪"
+                            android:textColor="@color/white"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvDetailStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_pill_dark"
+                            android:paddingStart="14dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="14dp"
+                            android:paddingBottom="6dp"
+                            android:text="عليه"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Quick Debt & Payment Buttons -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/btnDetailAddDebt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_btn_red"
+                        android:gravity="center"
+                        android:padding="14dp"
+                        android:text="+ تسجيل دين"
+                        android:textColor="@color/debt_red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/btnDetailAddPayment"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_btn_green"
+                        android:gravity="center"
+                        android:padding="14dp"
+                        android:text="✓ تسجيل دفعة"
+                        android:textColor="@color/payment_green"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- WhatsApp, Call, Share Statement Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="14dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/btnDetailWhatsApp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:gravity="center"
+                        android:padding="11dp"
+                        android:text="💬 واتساب"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/btnDetailCall"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:gravity="center"
+                        android:padding="11dp"
+                        android:text="📞 اتصال"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/btnDetailShare"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:gravity="center"
+                        android:padding="11dp"
+                        android:text="📄 كشف حساب"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="سجل السحوبات والدفعات (اضغط على أي حركة لحذفها)"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/llDetailHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:orientation="vertical" />
             </LinearLayout>
 
         </LinearLayout>
@@ -865,7 +1005,7 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_alignParentBottom="true"
-        android:background="#151E1B"
+        android:background="#131B18"
         android:baselineAligned="false"
         android:orientation="horizontal">
 

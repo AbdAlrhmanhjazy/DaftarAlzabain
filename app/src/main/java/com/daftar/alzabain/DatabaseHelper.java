@@ -15,23 +15,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(
-                "CREATE TABLE customers (" +
-                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "name TEXT NOT NULL, " +
-                        "phone TEXT)"
-        );
-
-        db.execSQL(
-                "CREATE TABLE transactions (" +
-                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "customer_id INTEGER NOT NULL, " +
-                        "type TEXT NOT NULL, " +
-                        "amount REAL NOT NULL, " +
-                        "note TEXT, " +
-                        "created_at TEXT, " +
-                        "FOREIGN KEY(customer_id) REFERENCES customers(id))"
-        );
+        db.execSQL("CREATE TABLE customers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, phone TEXT)");
+        db.execSQL("CREATE TABLE transactions (id INTEGER PRIMARY KEY AUTOINCREMENT, customer_id INTEGER NOT NULL, type TEXT NOT NULL, amount REAL NOT NULL, note TEXT, created_at TEXT, FOREIGN KEY(customer_id) REFERENCES customers(id))");
     }
 
     @Override

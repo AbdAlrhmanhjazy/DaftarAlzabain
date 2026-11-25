@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "daftar_alzabain.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -29,14 +29,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "type TEXT NOT NULL, " +
                         "amount REAL NOT NULL, " +
                         "note TEXT, " +
+                        "created_at TEXT, " +
                         "FOREIGN KEY(customer_id) REFERENCES customers(id))"
         );
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS transactions");
-        db.execSQL("DROP TABLE IF EXISTS customers");
-        onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE transactions ADD COLUMN created_at TEXT");
+        }
     }
 }

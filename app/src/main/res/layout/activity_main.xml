@@ -9,7 +9,7 @@
         android:id="@+id/svMainContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomNavBar"
+        android:layout_above="@+id/bottomNavContainer"
         android:fillViewport="true"
         android:scrollbars="none">
 
@@ -17,9 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="22dp">
+            android:paddingBottom="28dp">
 
-            <!-- TAB 0: HOME -->
+            <!-- ================= TAB 0: الرئيسية ================= -->
             <LinearLayout
                 android:id="@+id/tabHome"
                 android:layout_width="match_parent"
@@ -37,183 +37,1640 @@
                     android:paddingEnd="18dp"
                     android:paddingBottom="22dp">
 
-                    <TextView android:id="@+id/tvGreeting" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="صباح الخير" android:textColor="#D8F6EE" android:textSize="14sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:gravity="center_vertical" android:orientation="horizontal">
-                        <TextView android:id="@+id/tvShopOwner" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="الحاج" android:textColor="@color/white" android:textSize="22sp" android:textStyle="bold" />
-                        <TextView android:id="@+id/tvEditShopBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_pill_dark" android:paddingStart="12dp" android:paddingTop="5dp" android:paddingEnd="12dp" android:paddingBottom="5dp" android:text="تعديل" android:textColor="#9AF2DC" android:textSize="12sp" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvGreeting"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="مساء الخير"
+                                android:textColor="#D8F6EE"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/tvShopOwner"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="خضروات وفواكه"
+                                android:textColor="@color/white"
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/btnQuickLock"
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            android:layout_marginEnd="6dp"
+                            android:background="@drawable/bg_pill_dark"
+                            android:gravity="center"
+                            android:text="🔒"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/btnPrivacyEye"
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            android:background="@drawable/bg_pill_dark"
+                            android:gravity="center"
+                            android:text="👁"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
                     </LinearLayout>
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:text="إجمالي المتبقي لك" android:textColor="#D4F5EC" android:textSize="14sp" />
-                    <TextView android:id="@+id/tvTotalRemaining" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="0.0 ₪" android:textColor="@color/white" android:textSize="34sp" android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="إجمالي المتبقي لك"
+                        android:textColor="#D4F5EC"
+                        android:textSize="14sp" />
 
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:gravity="center_vertical" android:orientation="horizontal">
-                        <TextView android:id="@+id/tvDebtorsCount" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="0 زبوناً عليهم ديون" android:textColor="#E2F8F2" android:textSize="14sp" />
-                        <TextView android:id="@+id/tvWhatYouOwe" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_pill_dark" android:paddingStart="12dp" android:paddingTop="6dp" android:paddingEnd="12dp" android:paddingBottom="6dp" android:text="ما عليك: 0.0 ₪" android:textColor="#E8FFF9" android:textSize="13sp" android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tvTotalRemaining"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="0 ₪"
+                        android:textColor="@color/white"
+                        android:textSize="36sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvDebtorsCount"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0 زبوناً عليهم ديون"
+                            android:textColor="#E2F8F2"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvWhatYouOwe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_pill_dark"
+                            android:paddingStart="12dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="6dp"
+                            android:text="ما عليك: 0 ₪"
+                            android:textColor="#E8FFF9"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_marginTop="14dp" android:layout_marginEnd="14dp" android:background="@drawable/bg_dark_card" android:baselineAligned="false" android:orientation="horizontal" android:paddingTop="14dp" android:paddingBottom="14dp">
-                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="• ديون اليوم" android:textColor="@color/text_secondary" android:textSize="13sp" />
-                        <TextView android:id="@+id/tvTodayDebts" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="0.0 ₪" android:textColor="@color/debt_red" android:textSize="20sp" android:textStyle="bold" />
+                <!-- ديون اليوم ودفعات اليوم -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:background="@drawable/bg_dark_card"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="• ديون اليوم"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tvTodayDebts"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="0 ₪"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
-                    <View android:layout_width="1dp" android:layout_height="match_parent" android:background="@color/divider_dark" />
-                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="• دفعات اليوم" android:textColor="@color/text_secondary" android:textSize="13sp" />
-                        <TextView android:id="@+id/tvTodayPayments" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="0.0 ₪" android:textColor="@color/payment_green" android:textSize="20sp" android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/divider_dark" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="• دفعات اليوم"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tvTodayPayments"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="0 ₪"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout android:id="@+id/cardWalletsBanks" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_marginTop="12dp" android:layout_marginEnd="14dp" android:background="@drawable/bg_dark_card" android:gravity="center_vertical" android:orientation="horizontal" android:padding="14dp">
-                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="المحافظ والبنوك" android:textColor="@color/white" android:textSize="16sp" android:textStyle="bold" />
-                        <TextView android:id="@+id/tvWalletSummary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="احفظ أرقام جوال باي، بال باي وبنك فلسطين لنسخها بضغطة" android:textColor="@color/text_secondary" android:textSize="12sp" />
+                <!-- المحافظ والبنوك -->
+                <LinearLayout
+                    android:id="@+id/cardWalletsBanks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="14dp"
+                    android:background="@drawable/bg_dark_card"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="المحافظ والبنوك"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:text="احفظ أرقام جوال باي وبال باي وبنك فلسطين لنسخها أو إرسالها بضغطة"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
                     </LinearLayout>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="8dp" android:text="&lt;" android:textColor="@color/text_secondary" android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:text="&lt;"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_marginTop="16dp" android:layout_marginEnd="14dp" android:gravity="center_vertical" android:orientation="horizontal">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="تسجيل سريع" android:textColor="@color/white" android:textSize="16sp" android:textStyle="bold" />
-                    <TextView android:id="@+id/btnQuickEdit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="إضافة زبون" android:textColor="@color/teal_bright" android:textSize="13sp" android:textStyle="bold" />
+                <!-- تسجيل سريع -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="14dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="تسجيل سريع"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/btnQuickEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+ إضافة طرف"
+                        android:textColor="@color/teal_bright"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_marginTop="10dp" android:layout_marginEnd="14dp" android:baselineAligned="false" android:orientation="horizontal">
-                    <LinearLayout android:id="@+id/slotAdd" android:layout_width="0dp" android:layout_height="84dp" android:layout_marginEnd="6dp" android:layout_weight="1" android:background="@drawable/bg_quick_slot" android:gravity="center" android:orientation="vertical">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="+" android:textColor="@color/teal_bright" android:textSize="26sp" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="إضافة" android:textColor="@color/text_secondary" android:textSize="12sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="14dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/slotAdd"
+                        android:layout_width="0dp"
+                        android:layout_height="84dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="+"
+                            android:textColor="@color/teal_bright"
+                            android:textSize="26sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="إضافة"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
                     </LinearLayout>
-                    <LinearLayout android:id="@+id/slot2" android:layout_width="0dp" android:layout_height="84dp" android:layout_marginEnd="6dp" android:layout_weight="1" android:background="@drawable/bg_quick_slot" android:gravity="center" android:orientation="vertical" android:padding="4dp">
-                        <TextView android:id="@+id/tvSlot2Symbol" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ر" android:textColor="@color/white" android:textSize="20sp" android:textStyle="bold" />
-                        <TextView android:id="@+id/tvSlot2Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:ellipsize="end" android:maxLines="1" android:text="زبون سريع" android:textColor="@color/text_secondary" android:textSize="11sp" />
+
+                    <LinearLayout
+                        android:id="@+id/slot2"
+                        android:layout_width="0dp"
+                        android:layout_height="84dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="4dp">
+
+                        <TextView
+                            android:id="@+id/tvSlot2Symbol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ع"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvSlot2Name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="زبون"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
                     </LinearLayout>
-                    <LinearLayout android:id="@+id/slot3" android:layout_width="0dp" android:layout_height="84dp" android:layout_marginEnd="6dp" android:layout_weight="1" android:background="@drawable/bg_quick_slot" android:gravity="center" android:orientation="vertical" android:padding="4dp">
-                        <TextView android:id="@+id/tvSlot3Symbol" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ي" android:textColor="@color/white" android:textSize="20sp" android:textStyle="bold" />
-                        <TextView android:id="@+id/tvSlot3Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:ellipsize="end" android:maxLines="1" android:text="زبون سريع" android:textColor="@color/text_secondary" android:textSize="11sp" />
+
+                    <LinearLayout
+                        android:id="@+id/slot3"
+                        android:layout_width="0dp"
+                        android:layout_height="84dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="4dp">
+
+                        <TextView
+                            android:id="@+id/tvSlot3Symbol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="أ"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvSlot3Name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="زبون"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
                     </LinearLayout>
-                    <LinearLayout android:id="@+id/slot4" android:layout_width="0dp" android:layout_height="84dp" android:layout_weight="1" android:background="@drawable/bg_quick_slot" android:gravity="center" android:orientation="vertical" android:padding="4dp">
-                        <TextView android:id="@+id/tvSlot4Symbol" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ع" android:textColor="@color/white" android:textSize="20sp" android:textStyle="bold" />
-                        <TextView android:id="@+id/tvSlot4Name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:ellipsize="end" android:maxLines="1" android:text="زبون سريع" android:textColor="@color/text_secondary" android:textSize="11sp" />
+
+                    <LinearLayout
+                        android:id="@+id/slot4"
+                        android:layout_width="0dp"
+                        android:layout_height="84dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="4dp">
+
+                        <TextView
+                            android:id="@+id/tvSlot4Symbol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="م"
+                            android:textColor="@color/white"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvSlot4Name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="زبون"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_marginTop="16dp" android:text="أحدث الزبائن (اضغط لفتح كشف الحساب)" android:textColor="@color/white" android:textSize="14sp" android:textStyle="bold" />
-                <LinearLayout android:id="@+id/llRecentCustomers" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_marginTop="8dp" android:layout_marginEnd="14dp" android:orientation="vertical" />
+                <!-- أكبر ما عليك -->
+                <TextView
+                    android:id="@+id/tvBiggestOwedHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="16dp"
+                    android:text="أكبر ما عليك"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/llBiggestOwed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="14dp"
+                    android:orientation="vertical" />
+
+                <!-- آخر الحركات مع أزرار التصفية -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="آخر الحركات"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txFilterAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:background="@drawable/bg_chip_active"
+                        android:paddingStart="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="4dp"
+                        android:text="الكل"
+                        android:textColor="@color/dark_bg"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txFilterDebts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:background="@drawable/bg_dark_card"
+                        android:paddingStart="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="4dp"
+                        android:text="ديون"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/txFilterPayments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_dark_card"
+                        android:paddingStart="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="4dp"
+                        android:text="دفعات"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llHomeRecentTx"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="14dp"
+                    android:orientation="vertical" />
             </LinearLayout>
 
-            <!-- TAB 1: CUSTOMERS -->
-            <LinearLayout android:id="@+id/tabCustomers" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="14dp" android:visibility="gone">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="50dp" android:background="@drawable/bg_search_box" android:gravity="center_vertical" android:orientation="horizontal" android:paddingStart="12dp" android:paddingEnd="12dp">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingEnd="8dp" android:text="🔍" android:textSize="16sp" />
-                    <EditText android:id="@+id/etSearchCustomers" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="@android:color/transparent" android:hint="بحث بالاسم أو رقم الجوال..." android:inputType="text" android:textColor="@color/white" android:textColorHint="@color/text_secondary" android:textSize="15sp" />
-                    <TextView android:id="@+id/btnClearSearch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingStart="8dp" android:paddingEnd="4dp" android:text="✕" android:textColor="@color/text_secondary" android:textSize="16sp" />
+            <!-- ================= TAB 1: الزبائن ================= -->
+            <LinearLayout
+                android:id="@+id/tabCustomers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="14dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:background="@drawable/bg_dark_card"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="8dp"
+                        android:text="🔍"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/etSearchCustomers"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:hint="ابحث بالاسم أو رقم الهاتف"
+                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/text_secondary"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/btnClearSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:text="✕"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="16sp" />
                 </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:gravity="center_vertical" android:orientation="horizontal">
-                    <TextView android:id="@+id/btnSortCustomers" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_dark_card" android:paddingStart="14dp" android:paddingTop="8dp" android:paddingEnd="14dp" android:paddingBottom="8dp" android:text="ترتيب: الاسم ▾" android:textColor="@color/white" android:textSize="13sp" />
-                    <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
-                    <TextView android:id="@+id/tvCustomersTotalBadge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 زبون" android:textColor="@color/text_secondary" android:textSize="13sp" />
+
+                <!-- أزرار الفلترة الذكية في شاشة الزبائن -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/custFilterAll"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_chip_active"
+                        android:gravity="center"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="الكل"
+                        android:textColor="@color/dark_bg"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/custFilterDebtors"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:gravity="center"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="عليهم ديون"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/custFilterCreditors"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:gravity="center"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="لهم رصيد"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/custFilterOverLimit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:gravity="center"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="فوق السقف"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
                 </LinearLayout>
-                <LinearLayout android:id="@+id/llCustomersList" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:orientation="vertical" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/btnSortCustomers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_dark_card"
+                        android:paddingStart="14dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="14dp"
+                        android:paddingBottom="8dp"
+                        android:text="ترتيب: الاسم ▾"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tvCustomersTotalBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0 زبون"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCustomersList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical" />
             </LinearLayout>
 
-            <!-- TAB 2: REPORTS -->
-            <LinearLayout android:id="@+id/tabReports" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/bg_header_teal" android:orientation="vertical" android:padding="18dp">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="التقارير والملخص المالي" android:textColor="@color/white" android:textSize="22sp" android:textStyle="bold" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="متابعة شاملة لجميع الديون والدفعات" android:textColor="#D9F6EE" android:textSize="13sp" />
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="14dp" android:background="@drawable/bg_dark_card" android:orientation="vertical" android:padding="16dp">
-                    <TextView android:id="@+id/tvReportDebts" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="إجمالي الديون: 0.0 ₪" android:textColor="@color/debt_red" android:textSize="17sp" android:textStyle="bold" />
-                    <TextView android:id="@+id/tvReportPayments" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="إجمالي الدفعات: 0.0 ₪" android:textColor="@color/payment_green" android:textSize="17sp" android:textStyle="bold" />
-                    <TextView android:id="@+id/tvReportNet" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="الصافي المتبقي لك: 0.0 ₪" android:textColor="@color/white" android:textSize="18sp" android:textStyle="bold" />
-                    <TextView android:id="@+id/btnShareFullReport" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:background="@drawable/bg_btn_green" android:gravity="center" android:padding="12dp" android:text="📤 مشاركة التقرير المالي الكامل" android:textColor="@color/payment_green" android:textSize="14sp" android:textStyle="bold" />
-                </LinearLayout>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_marginBottom="8dp" android:text="سجل آخر الحركات" android:textColor="@color/white" android:textSize="15sp" android:textStyle="bold" />
-                <LinearLayout android:id="@+id/llRecentTransactions" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_marginEnd="14dp" android:orientation="vertical" />
-            </LinearLayout>
+            <!-- ================= TAB 2: التقارير ================= -->
+            <LinearLayout
+                android:id="@+id/tabReports"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <!-- TAB 3: SETTINGS -->
-            <LinearLayout android:id="@+id/tabSettings" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/bg_header_teal" android:orientation="vertical" android:padding="18dp">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="الإعدادات" android:textColor="@color/white" android:textSize="22sp" android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_header_teal"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="التقارير"
+                        android:textColor="@color/white"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="ملخص شامل للحسابات والتأخير"
+                        android:textColor="#D9F6EE"
+                        android:textSize="13sp" />
                 </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="14dp" android:background="@drawable/bg_dark_card" android:orientation="vertical" android:padding="6dp">
-                    <LinearLayout android:id="@+id/itemShop" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="14dp">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="اسم المحل" android:textColor="@color/white" android:textSize="16sp" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="تعديل اسم المحل الذي يظهر في الشاشة الرئيسية ورسائل واتساب" android:textColor="@color/text_secondary" android:textSize="12sp" />
+
+                <!-- أزرار الفترة الزمنية -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/repToday"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="اليوم"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/repWeek"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="آخر 7 أيام"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/repMonth"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_chip_active"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="هذا الشهر"
+                        android:textColor="@color/dark_bg"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- شبكة المربعات الإحصائية -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="14dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_header_teal"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="إجمالي المتبقي"
+                            android:textColor="#E2F8F2"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tvRepTotalRemaining"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="0 ₪"
+                            android:textColor="@color/white"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="إجمالي ما عليك"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tvRepTotalOwed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="0 ₪"
+                            android:textColor="@color/white"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="14dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ديون جديدة"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvRepNewDebts"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="0 ₪"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="دفعات مستلمة"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvRepPayments"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="0 ₪"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="14dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="زبائن عليهم ديون"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tvRepDebtorsCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="أشخاص لهم عليك"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tvRepCreditorsCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_dark_card"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="متأخرون +30 يوم"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tvRepOverdueCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="0"
+                            android:textColor="@color/debt_red"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/btnPrintPaymentsLog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="14dp"
+                    android:background="@drawable/bg_dark_card"
+                    android:gravity="center"
+                    android:padding="14dp"
+                    android:text="طباعة / مشاركة سجل الدفعات"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- ================= TAB 3: الإعدادات ================= -->
+            <LinearLayout
+                android:id="@+id/tabSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_header_teal"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="الإعدادات"
+                        android:textColor="@color/white"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- بطاقة إعدادات المحل -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="14dp"
+                    android:background="@drawable/bg_dark_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="اسم المحل"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp" />
+
+                    <EditText
+                        android:id="@+id/etSetShopName"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_btn_dark_outline"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:text="خضروات وفواكه"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="العملة"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/btnSetCurrency"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_btn_dark_outline"
+                        android:gravity="center_vertical"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:text="شيكل (₪)  ▾"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="سقف الدين لكل زبون (اختياري)"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp" />
+
+                    <EditText
+                        android:id="@+id/etSetDebtCeiling"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_btn_dark_outline"
+                        android:hint="مثال: 150"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/text_secondary"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/btnSaveShopSettings"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="14dp"
+                        android:background="@drawable/bg_chip_active"
+                        android:gravity="center"
+                        android:text="حفظ إعدادات المحل"
+                        android:textColor="@color/dark_bg"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- بطاقة التفعيل مدى الحياة -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:background="@drawable/bg_dark_card"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/tvLicenseStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="النسخة المجانية — حتى 5 زبائن"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/btnOpenActivationFromSettings"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/bg_chip_active"
+                        android:gravity="center"
+                        android:text="فعّل الآن — نسخة كاملة مدى الحياة"
+                        android:textColor="@color/dark_bg"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- قفل الحماية + النسخ الاحتياطي والاستيراد + قوالب التذكير -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="14dp"
+                    android:background="@drawable/bg_dark_card"
+                    android:orientation="vertical"
+                    android:padding="6dp">
+
+                    <LinearLayout
+                        android:id="@+id/itemAppPin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="قفل التطبيق برمز سري (PIN)"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvPinSub"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="غير مفعّل - اضغط لتعيين رمز من 4 أرقام لحماية دفترك"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider_dark" />
-                    <LinearLayout android:id="@+id/itemCurrency" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="14dp">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="العملة الافتراضية" android:textColor="@color/white" android:textSize="16sp" android:textStyle="bold" />
-                        <TextView android:id="@+id/tvCurrencySub" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="الحالية: شيكل (₪) - اضغط للتغيير" android:textColor="@color/text_secondary" android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:id="@+id/itemBackup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="احفظ نسخة احتياطية"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="تصدير نسخة كاملة من جميع الزبائن والحركات"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
                     </LinearLayout>
+
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider_dark" />
-                    <LinearLayout android:id="@+id/itemHideAmounts" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="14dp">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="إخفاء المبالغ (الخصوصية)" android:textColor="@color/white" android:textSize="16sp" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="إخفاء أو إظهار الأرقام بضغطة واحدة" android:textColor="@color/text_secondary" android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:id="@+id/itemRestoreData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="استيراد بيانات"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="استعادة الزبائن والأرصدة من نسخة احتياطية نصية"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
                     </LinearLayout>
+
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider_dark" />
-                    <LinearLayout android:id="@+id/itemBackup" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="14dp">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="تصدير نسخة نصية للدفتر" android:textColor="@color/white" android:textSize="16sp" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="إرسال نسخة كاملة من جميع الزبائن والأرصدة" android:textColor="@color/text_secondary" android:textSize="12sp" />
-                    </LinearLayout>
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider_dark" />
-                    <LinearLayout android:id="@+id/itemAbout" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="14dp">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="عن التطبيق والترخيص" android:textColor="@color/white" android:textSize="16sp" android:textStyle="bold" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="دفتر الزبائن الاحترافي - الإصدار 3.0 (نسخة مفعّلة)" android:textColor="@color/text_secondary" android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:id="@+id/itemReminderTemplate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="قوالب التذكير"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="تعديل نص رسالة التذكير الذكية على واتساب"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- TAB 4: CUSTOMER DETAIL -->
-            <LinearLayout android:id="@+id/tabCustomerDetail" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/bg_header_teal" android:orientation="vertical" android:padding="18dp">
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
-                        <TextView android:id="@+id/btnBackFromDetail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_pill_dark" android:paddingStart="12dp" android:paddingTop="6dp" android:paddingEnd="12dp" android:paddingBottom="6dp" android:text="رجوع →" android:textColor="@color/white" android:textSize="13sp" />
-                        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
-                        <TextView android:id="@+id/btnEditCustomerDetail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_pill_dark" android:paddingStart="12dp" android:paddingTop="6dp" android:paddingEnd="12dp" android:paddingBottom="6dp" android:text="تعديل / حذف" android:textColor="#9AF2DC" android:textSize="12sp" />
+            <!-- ================= TAB 4: صفحة حساب الزبون/الدائن ================= -->
+            <LinearLayout
+                android:id="@+id/tabCustomerDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_header_teal"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/btnBackFromDetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_pill_dark"
+                            android:paddingStart="12dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="6dp"
+                            android:text="→ رجوع"
+                            android:textColor="@color/white"
+                            android:textSize="13sp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvDetailName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="اسم الزبون"
+                                android:textColor="@color/white"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvDetailPhone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="#D4F5EC"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/btnDetailCall"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_marginEnd="6dp"
+                            android:background="@drawable/bg_pill_dark"
+                            android:gravity="center"
+                            android:text="📞"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/btnDetailWhatsApp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_marginEnd="6dp"
+                            android:background="@drawable/bg_pill_dark"
+                            android:gravity="center"
+                            android:text="💬"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/btnEditCustomerDetail"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/bg_pill_dark"
+                            android:gravity="center"
+                            android:text="⋮"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
-                    <TextView android:id="@+id/tvDetailName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:text="اسم الزبون" android:textColor="@color/white" android:textSize="24sp" android:textStyle="bold" />
-                    <TextView android:id="@+id/tvDetailPhone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="بدون رقم جوال" android:textColor="#D4F5EC" android:textSize="13sp" />
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:gravity="center_vertical" android:orientation="horizontal">
-                        <TextView android:id="@+id/tvDetailBalance" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="0.0 ₪" android:textColor="@color/white" android:textSize="30sp" android:textStyle="bold" />
-                        <TextView android:id="@+id/tvDetailStatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/bg_pill_dark" android:paddingStart="14dp" android:paddingTop="6dp" android:paddingEnd="14dp" android:paddingBottom="6dp" android:text="عليه" android:textColor="@color/white" android:textSize="14sp" android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvDetailStatusLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="المتبقي عليه"
+                        android:textColor="#D4F5EC"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvDetailBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="0 ₪"
+                        android:textColor="@color/white"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- أزرار: أخذ منك / سدّد لك / تصفية حساب -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:background="@drawable/bg_dark_card"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/btnDetailAddDebt"
+                            android:layout_width="0dp"
+                            android:layout_height="52dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_btn_white"
+                            android:gravity="center"
+                            android:text="أخذ منك"
+                            android:textColor="@color/dark_bg"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/btnDetailAddPayment"
+                            android:layout_width="0dp"
+                            android:layout_height="52dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_btn_dark_outline"
+                            android:gravity="center"
+                            android:text="سدّد لك"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/btnSettleAccount"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_pill_dark"
+                        android:gravity="center"
+                        android:text="✓ تصفية وتصفير الحساب بالكامل"
+                        android:textColor="#9AF2DC"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_marginTop="14dp" android:layout_marginEnd="14dp" android:baselineAligned="false" android:orientation="horizontal">
-                    <TextView android:id="@+id/btnDetailAddDebt" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginEnd="6dp" android:layout_weight="1" android:background="@drawable/bg_btn_red" android:gravity="center" android:padding="14dp" android:text="+ تسجيل دين" android:textColor="@color/debt_red" android:textSize="15sp" android:textStyle="bold" />
-                    <TextView android:id="@+id/btnDetailAddPayment" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_weight="1" android:background="@drawable/bg_btn_green" android:gravity="center" android:padding="14dp" android:text="✓ تسجيل دفعة" android:textColor="@color/payment_green" android:textSize="15sp" android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_marginTop="10dp" android:layout_marginEnd="14dp" android:baselineAligned="false" android:orientation="horizontal">
-                    <TextView android:id="@+id/btnDetailWhatsApp" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginEnd="5dp" android:layout_weight="1" android:background="@drawable/bg_dark_card" android:gravity="center" android:padding="11dp" android:text="💬 واتساب" android:textColor="@color/white" android:textSize="13sp" />
-                    <TextView android:id="@+id/btnDetailCall" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="5dp" android:layout_marginEnd="5dp" android:layout_weight="1" android:background="@drawable/bg_dark_card" android:gravity="center" android:padding="11dp" android:text="📞 اتصال" android:textColor="@color/white" android:textSize="13sp" />
-                    <TextView android:id="@+id/btnDetailShare" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="5dp" android:layout_weight="1" android:background="@drawable/bg_dark_card" android:gravity="center" android:padding="11dp" android:text="📄 كشف حساب" android:textColor="@color/white" android:textSize="13sp" />
-                </LinearLayout>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_marginTop="18dp" android:layout_marginBottom="8dp" android:text="سجل السحوبات والدفعات (اضغط على أي حركة لحذفها)" android:textColor="@color/text_secondary" android:textSize="13sp" android:textStyle="bold" />
-                <LinearLayout android:id="@+id/llDetailHistory" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_marginEnd="14dp" android:orientation="vertical" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="كل الحركات (اضغط على أي حركة لحذفها)"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/llDetailHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:id="@+id/btnDetailShare"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="14dp"
+                    android:background="@drawable/bg_dark_card"
+                    android:gravity="center"
+                    android:padding="14dp"
+                    android:text="طباعة / مشاركة كشف الحساب"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </LinearLayout>
+
+            <!-- ================= TAB 5: شاشة حركة جديدة / اختر الزبون ================= -->
+            <LinearLayout
+                android:id="@+id/tabQuickSelectCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_header_teal"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/btnCloseQuickSelect"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_pill_dark"
+                            android:paddingStart="12dp"
+                            android:paddingTop="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingBottom="6dp"
+                            android:text="✕ إغلاق"
+                            android:textColor="@color/white"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="حركة جديدة - اختر الزبون"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/btnQuickAddNewPerson"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="14dp"
+                        android:background="@drawable/bg_btn_white"
+                        android:gravity="center"
+                        android:text="+ إضافة زبون أو دائن جديد"
+                        android:textColor="@color/dark_bg"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llQuickSelectList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="14dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
-    <TextView android:id="@+id/fabAddCustomer" android:layout_width="56dp" android:layout_height="56dp" android:layout_above="@+id/bottomNavBar" android:layout_centerHorizontal="true" android:layout_marginBottom="10dp" android:background="@drawable/bg_fab_teal" android:gravity="center" android:text="+" android:textColor="@color/dark_bg" android:textSize="28sp" android:textStyle="bold" android:visibility="gone" />
+    <!-- زر الآلة الحاسبة العائم -->
+    <TextView
+        android:id="@+id/fabCalculator"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_above="@+id/bottomNavContainer"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_dark_card"
+        android:gravity="center"
+        android:text="="
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
-    <LinearLayout android:id="@+id/bottomNavBar" android:layout_width="match_parent" android:layout_height="64dp" android:layout_alignParentBottom="true" android:background="#131B18" android:baselineAligned="false" android:orientation="horizontal">
-        <LinearLayout android:id="@+id/navHome" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
-            <TextView android:id="@+id/navHomeIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⌂" android:textColor="@color/teal_bright" android:textSize="20sp" />
-            <TextView android:id="@+id/navHomeText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="الرئيسية" android:textColor="@color/teal_bright" android:textSize="12sp" android:textStyle="bold" />
+    <!-- شريط التنقل السفلي -->
+    <RelativeLayout
+        android:id="@+id/bottomNavContainer"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:id="@+id/bottomNavBar"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_alignParentBottom="true"
+            android:background="#121917"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/navHome"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/navHomeIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⌂"
+                    android:textColor="@color/teal_bright"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/navHomeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="الرئيسية"
+                    android:textColor="@color/teal_bright"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/navCustomers"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/navCustomersIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="👤"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/navCustomersText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="الزبائن"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="68dp"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:id="@+id/navReports"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/navReportsIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="≡"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/navReportsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="التقارير"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/navSettings"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/navSettingsIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⚙"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/navSettingsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="الإعدادات"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
         </LinearLayout>
-        <LinearLayout android:id="@+id/navCustomers" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
-            <TextView android:id="@+id/navCustomersIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="👤" android:textColor="@color/text_secondary" android:textSize="17sp" />
-            <TextView android:id="@+id/navCustomersText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="الزبائن" android:textColor="@color/text_secondary" android:textSize="12sp" />
-        </LinearLayout>
-        <LinearLayout android:id="@+id/navReports" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
-            <TextView android:id="@+id/navReportsIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="≡" android:textColor="@color/text_secondary" android:textSize="20sp" />
-            <TextView android:id="@+id/navReportsText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="التقارير" android:textColor="@color/text_secondary" android:textSize="12sp" />
-        </LinearLayout>
-        <LinearLayout android:id="@+id/navSettings" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical">
-            <TextView android:id="@+id/navSettingsIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⚙" android:textColor="@color/text_secondary" android:textSize="18sp" />
-            <TextView android:id="@+id/navSettingsText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="الإعدادات" android:textColor="@color/text_secondary" android:textSize="12sp" />
-        </LinearLayout>
+
+        <TextView
+            android:id="@+id/fabCenterPlus"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/bg_fab_center"
+            android:gravity="center"
+            android:text="+"
+            android:textColor="@color/dark_bg"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- شاشة قفل التاجر (PIN) -->
+    <LinearLayout
+        android:id="@+id/layoutPinLock"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dark_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="28dp"
+        android:visibility="gone">
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🔒" android:textSize="48sp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="دفتري مقفل" android:textColor="@color/white" android:textSize="24sp" android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="أدخل الرمز السري المكون من 4 أرقام لفتح الدفتر" android:textColor="@color/text_secondary" android:textSize="13sp" />
+        <EditText android:id="@+id/etUnlockPin" android:layout_width="match_parent" android:layout_height="54dp" android:layout_marginTop="20dp" android:background="@drawable/bg_dark_card" android:gravity="center" android:hint="••••" android:inputType="numberPassword" android:letterSpacing="0.3" android:maxLength="4" android:textColor="@color/white" android:textColorHint="@color/text_secondary" android:textSize="24sp" />
+        <TextView android:id="@+id/btnUnlockPin" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="14dp" android:background="@drawable/bg_chip_active" android:gravity="center" android:text="فتح الدفتر" android:textColor="@color/dark_bg" android:textSize="16sp" android:textStyle="bold" />
     </LinearLayout>
 
     <!-- شاشة التفعيل الأوفلاين -->
@@ -229,97 +1686,55 @@
         android:padding="24dp"
         android:visibility="gone">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="🔐"
-            android:textSize="48sp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🔐" android:textSize="48sp" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:text="تفعيل النسخة الكاملة مدى الحياة" android:textColor="@color/white" android:textSize="22sp" android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:gravity="center" android:text="أرسل رقم جهازك التالي للمطوّر للحصول على كود التفعيل الدائم (يعمل بدون إنترنت)" android:textColor="@color/text_secondary" android:textSize="13sp" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:background="@drawable/bg_dark_card" android:gravity="center" android:orientation="vertical" android:padding="18dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="رقم جهازك الخاص:" android:textColor="@color/text_secondary" android:textSize="13sp" />
+            <TextView android:id="@+id/tvDeviceIdCode" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:letterSpacing="0.15" android:text="000000" android:textColor="@color/teal_bright" android:textSize="32sp" android:textStyle="bold" />
+            <TextView android:id="@+id/btnCopyDeviceId" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:background="@drawable/bg_pill_dark" android:paddingStart="16dp" android:paddingTop="6dp" android:paddingEnd="16dp" android:paddingBottom="6dp" android:text="📋 نسخ رقم الجهاز" android:textColor="#9AF2DC" android:textSize="13sp" />
+        </LinearLayout>
+
+        <EditText android:id="@+id/etActivationCode" android:layout_width="match_parent" android:layout_height="54dp" android:layout_marginTop="20dp" android:background="@drawable/bg_dark_card" android:gravity="center" android:hint="أدخل كود التفعيل (6 أرقام)" android:inputType="number" android:letterSpacing="0.15" android:textColor="@color/white" android:textColorHint="@color/text_secondary" android:textSize="18sp" />
+        <TextView android:id="@+id/btnActivateApp" android:layout_width="match_parent" android:layout_height="54dp" android:layout_marginTop="14dp" android:background="@drawable/bg_chip_active" android:gravity="center" android:text="فعل الآن — مدى الحياة" android:textColor="@color/dark_bg" android:textSize="16sp" android:textStyle="bold" />
+        <TextView android:id="@+id/btnContinueTrial" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="14dp" android:padding="8dp" android:text="متابعة بالنسخة التجريبية (حتى 5 زبائن)" android:textColor="@color/text_secondary" android:textSize="13sp" />
+    </LinearLayout>
+
+    <!-- شاشة البداية (Splash Screen) -->
+    <LinearLayout
+        android:id="@+id/layoutSplash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/teal_header"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/ic_app_logo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="تفعيل دفتر الزبائن"
+            android:layout_marginTop="16dp"
+            android:text="دفتري"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="32sp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tvSplashSub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:gravity="center"
-            android:text="أرسل رقم جهازك التالي للمطوّر للحصول على كود التفعيل الدائم (يعمل بدون إنترنت)"
-            android:textColor="@color/text_secondary"
-            android:textSize="13sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/bg_dark_card"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="18dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="رقم جهازك الخاص:"
-                android:textColor="@color/text_secondary"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/tvDeviceIdCode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:letterSpacing="0.15"
-                android:text="000000"
-                android:textColor="@color/teal_bright"
-                android:textSize="32sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/btnCopyDeviceId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/bg_pill_dark"
-                android:paddingStart="16dp"
-                android:paddingTop="6dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="6dp"
-                android:text="📋 نسخ رقم الجهاز"
-                android:textColor="#9AF2DC"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/etActivationCode"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/bg_search_box"
-            android:gravity="center"
-            android:hint="أدخل كود التفعيل (6 أرقام)"
-            android:inputType="number"
-            android:letterSpacing="0.15"
-            android:textColor="@color/white"
-            android:textColorHint="@color/text_secondary"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/btnActivateApp"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginTop="14dp"
-            android:background="@drawable/bg_fab_teal"
-            android:gravity="center"
-            android:text="تفعيل التطبيق الآن"
-            android:textColor="@color/dark_bg"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:text="إدارة ذكية لديون وحسابات المحل"
+            android:textColor="#D8F6EE"
+            android:textSize="14sp" />
     </LinearLayout>
 
 </RelativeLayout>

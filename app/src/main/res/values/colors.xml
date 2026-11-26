@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="teal_header">#0B876B</color>
-    <color name="teal_bright">#14B896</color>
-    <color name="dark_bg">#0F1614</color>
-    <color name="dark_card">#18221F</color>
-    <color name="dark_card_elevated">#202D29</color>
-    <color name="text_secondary">#96ACA4</color>
-    <color name="divider_dark">#263530</color>
+    <color name="teal_header">#0E8A6E</color>
+    <color name="teal_bright">#19C39D</color>
+    <color name="teal_soft">#9AF2DC</color>
+    <color name="dark_bg">#0E1412</color>
+    <color name="dark_card">#17201D</color>
+    <color name="dark_card_2">#1E2925</color>
+    <color name="text_secondary">#93A8A1</color>
+    <color name="divider_dark">#25332E</color>
     <color name="debt_red">#FF6B6B</color>
     <color name="payment_green">#2DD4A8</color>
     <color name="white">#FFFFFF</color>
